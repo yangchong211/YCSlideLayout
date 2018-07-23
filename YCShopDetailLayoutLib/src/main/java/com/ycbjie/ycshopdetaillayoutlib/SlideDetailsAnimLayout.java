@@ -57,7 +57,6 @@ public class SlideDetailsAnimLayout extends ViewGroup {
     private int mDefaultPanel = 0;
 
 
-
     public SlideDetailsAnimLayout(Context context) {
         this(context, null);
     }
