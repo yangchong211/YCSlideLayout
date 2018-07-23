@@ -292,37 +292,30 @@ public class SlideDetailsAnimLayout extends ViewGroup {
         if (Status.CLOSE == mStatus) {
             if (offset <= -percent/2) {
                 // LoggerUtils.i("准备翻下页，已超过一半");
-                if(scrollStatus!= Status.OPEN && listener!=null){
+                if(listener!=null){
                     listener.onStatusChanged(mStatus, true);
                 }
-                scrollStatus= Status.OPEN;
             } else {
                 //LoggerUtils.i("准备翻下页，不超过一半");
-                if(scrollStatus!= Status.CLOSE && listener!=null){
+                if(listener!=null){
                     listener.onStatusChanged(mStatus, false);
                 }
-                scrollStatus= Status.CLOSE;
             }
         } else if (Status.OPEN == mStatus) {
             if ((offset ) >= percent/2) {
-                if(scrollStatus!= Status.CLOSE && listener!=null){
+                if(listener!=null){
                     listener.onStatusChanged(mStatus, false);
                 }
-                scrollStatus= Status.CLOSE;
                 //LoggerUtils.i("准备翻上页，已超过一半:offset:"+offset+"--->pHeight:"+pHeight+"--->:"+percent);
             } else {
-                if(scrollStatus!= Status.OPEN && listener!=null){
+                if(listener!=null){
                     listener.onStatusChanged(mStatus, true);
                 }
-                scrollStatus= Status.OPEN;
                 //LoggerUtils.i("准备翻上页，不超过一半"+offset+"--->pHeight:"+pHeight+"--->:"+percent);
             }
         }
         requestLayout();
     }
-
-    private Status scrollStatus= Status.CLOSE;
-
 
     private void finishTouchEvent() {
         final int pHeight = getMeasuredHeight();
@@ -331,11 +324,10 @@ public class SlideDetailsAnimLayout extends ViewGroup {
         boolean changed = false;
         if (Status.CLOSE == mStatus) {
             if (offset <= -percent /2) {
-                mSlideOffset = -pHeight-getChildAt(1).getMeasuredHeight();
+                mSlideOffset = -pHeight - getChildAt(1).getMeasuredHeight();
                 mStatus = Status.OPEN;
                 changed = true;
             } else {
-                // keep panel closed
                 mSlideOffset = 0;
             }
         } else if (Status.OPEN == mStatus) {
@@ -344,8 +336,7 @@ public class SlideDetailsAnimLayout extends ViewGroup {
                 mStatus = Status.CLOSE;
                 changed = true;
             } else {
-                // keep panel opened
-                mSlideOffset = -pHeight-getChildAt(1).getMeasuredHeight();
+                mSlideOffset = -pHeight - getChildAt(1).getMeasuredHeight();
             }
         }
         animatorSwitch(offset, mSlideOffset, changed);
@@ -368,10 +359,8 @@ public class SlideDetailsAnimLayout extends ViewGroup {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (changed) {
-                    if (mStatus == Status.OPEN) {
-                        checkAndFirstOpenPanel();
-                    }
+                if (changed && mStatus == Status.OPEN) {
+                    checkAndFirstOpenPanel();
                 }
             }
         });
