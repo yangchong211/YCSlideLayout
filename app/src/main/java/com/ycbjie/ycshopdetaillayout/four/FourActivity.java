@@ -1,12 +1,12 @@
-package com.ycbjie.ycshopdetaillayout.second;
+package com.ycbjie.ycshopdetaillayout.four;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,10 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ycbjie.ycshopdetaillayout.R;
+import com.ycbjie.ycshopdetaillayout.second.ShopMain1Fragment;
 import com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout;
 
 
-public class SecondActivity extends AppCompatActivity {
+public class FourActivity extends AppCompatActivity {
 
     private SlideAnimLayout mSlideDetailsLayout;
     private ShopMain1Fragment shopMainFragment;
@@ -27,29 +28,20 @@ public class SecondActivity extends AppCompatActivity {
     private LinearLayout ll_page_more;
     private ImageView mIvMoreImg;
     private TextView mTvMoreText;
-    private boolean isBtn = true;
+    private TextView tvBarGoods;
+    private TextView tvBarMaterial;
+    private TextView tvBarDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_four);
 
         initView();
+        initListener();
         initShopMainFragment();
         initSlideDetailsLayout();
         initWebView();
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isBtn){
-                    isBtn = false;
-                    mSlideDetailsLayout.smoothOpen(true);
-                }else {
-                    isBtn = true;
-                    mSlideDetailsLayout.smoothClose(true);
-                }
-            }
-        });
     }
 
     private void initView() {
@@ -58,7 +50,33 @@ public class SecondActivity extends AppCompatActivity {
         webView = findViewById(R.id.wb_view);
         mIvMoreImg = findViewById(R.id.iv_more_img);
         mTvMoreText =  findViewById(R.id.tv_more_text);
+        tvBarGoods = findViewById(R.id.tv_bar_goods);
+        tvBarDetail = findViewById(R.id.tv_bar_detail);
 
+    }
+
+    private void initListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.tv_bar_goods:
+                        tvBarGoods.setTextColor(Color.RED);
+                        tvBarDetail.setTextColor(Color.BLACK);
+                        mSlideDetailsLayout.smoothClose(true);
+                        break;
+                    case R.id.tv_bar_detail:
+                        tvBarGoods.setTextColor(Color.BLACK);
+                        tvBarDetail.setTextColor(Color.RED);
+                        mSlideDetailsLayout.smoothOpen(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        tvBarGoods.setOnClickListener(onClickListener);
+        tvBarDetail.setOnClickListener(onClickListener);
     }
 
 
@@ -78,8 +96,8 @@ public class SecondActivity extends AppCompatActivity {
     private void initSlideDetailsLayout() {
         mSlideDetailsLayout.setScrollStatusListener(new SlideAnimLayout.onScrollStatusListener() {
             @Override
-            public void onStatusChanged(SlideAnimLayout.Status mNowStatus,boolean isHalf) {
-                if(mNowStatus==SlideAnimLayout.Status.CLOSE){
+            public void onStatusChanged(SlideAnimLayout.Status mNowStatus, boolean isHalf) {
+                if(mNowStatus== SlideAnimLayout.Status.CLOSE){
                     if(isHalf){//打开
                         mTvMoreText.setText("释放，查看图文详情");
                         mIvMoreImg.animate().rotation(0);

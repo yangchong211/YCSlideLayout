@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout
+            android:id="@+id/slideDetailsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:default_panel="front"
+            app:duration="200"
+            app:percent="0.1">
+
+            <FrameLayout
+                android:id="@+id/fl_shop_main2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:id="@+id/ll_page_more"
+                android:orientation="vertical"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_more_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:rotation="180"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_details_page_down_loading" />
+                <TextView
+                    android:id="@+id/tv_more_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="25dp"
+                    android:gravity="center"
+                    android:text="测试动画，继续上拉，查看图文详情"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+
+            <include layout="@layout/include_shop_detail"/>
+
+
+        </com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="这个是底部布局"/>
+
+    </LinearLayout>
+
+    <!--商品详情页标题-->
+    <include layout="@layout/include_goods_details_bar"/>
+
+
+</FrameLayout>

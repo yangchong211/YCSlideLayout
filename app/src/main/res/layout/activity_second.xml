@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ycbjie.ycshopdetaillayoutlib.SlideDetailsAnimLayout
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="切换状态"/>
+
+    <com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout
         android:id="@+id/slideDetailsLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -40,11 +48,12 @@
                 android:text="测试动画，继续上拉，查看图文详情"
                 android:textSize="13sp" />
         </LinearLayout>
+
+
         <include layout="@layout/include_shop_detail"/>
 
 
-    </com.ycbjie.ycshopdetaillayoutlib.SlideDetailsAnimLayout>
-
+    </com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout>
 
 
 </LinearLayout>

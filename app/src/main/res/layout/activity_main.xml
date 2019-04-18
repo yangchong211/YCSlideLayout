@@ -36,4 +36,14 @@
         android:background="@android:color/darker_gray"
         android:text="仿天猫商品详情页面"/>
 
+
+    <TextView
+        android:id="@+id/tv_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray"
+        android:text="购物车商品详情页面，带有动画，待点击滑动"/>
+
 </LinearLayout>

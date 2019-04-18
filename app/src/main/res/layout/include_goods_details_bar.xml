@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@android:color/transparent">
+
+
+    <!--下面这部分是需要渐变效果，当作一个整体-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tv_bar_goods"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tv_bar_material"
+            android:layout_marginRight="29dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="商品"/>
+
+
+        <TextView
+            android:id="@+id/tv_bar_material"
+            android:layout_width="wrap_content"
+            android:visibility="visible"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text=""/>
+
+
+        <TextView
+            android:id="@+id/tv_bar_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/tv_bar_material"
+            android:layout_marginLeft="29dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="详情"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray"/>
+
+    </RelativeLayout>
+
+
+</FrameLayout>

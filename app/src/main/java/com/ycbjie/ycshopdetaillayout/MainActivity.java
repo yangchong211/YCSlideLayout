@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ycbjie.ycshopdetaillayout.first.FirstActivity;
+import com.ycbjie.ycshopdetaillayout.four.FourActivity;
 import com.ycbjie.ycshopdetaillayout.second.SecondActivity;
 import com.ycbjie.ycshopdetaillayout.third.ThirdActivity;
+import com.ycbjie.ycshopdetaillayoutlib.LoggerUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LoggerUtils.setIsLog(true);
 
         findViewById(R.id.tv_1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,ThirdActivity.class));
+            }
+        });
+        findViewById(R.id.tv_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,FourActivity.class));
             }
         });
     }
