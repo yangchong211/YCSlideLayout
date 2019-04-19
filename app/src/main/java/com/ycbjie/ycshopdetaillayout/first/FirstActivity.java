@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.ycshopdetaillayoutlib.SlideDetailsLayout;
+import com.ycbjie.slide.SlideDetailsLayout;
 
 public class FirstActivity extends AppCompatActivity {
 

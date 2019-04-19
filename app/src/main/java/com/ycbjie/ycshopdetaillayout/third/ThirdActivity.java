@@ -3,7 +3,6 @@ package com.ycbjie.ycshopdetaillayout.third;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.ycbjie.ycshopdetaillayout.R;
 import com.ycbjie.ycshopdetaillayout.first.ShopMainFragment;
-import com.ycbjie.ycshopdetaillayoutlib.SlideDetailsLayout;
+import com.ycbjie.slide.SlideDetailsLayout;
 
 /**
  * Created by yc on 2018/7/23.

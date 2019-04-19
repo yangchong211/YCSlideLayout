@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayoutlib;
+package com.ycbjie.ycshopdetaillayout;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,7 +46,6 @@ public class VerticalRecyclerView extends RecyclerView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
             if (layoutManager instanceof GridLayoutManager) {
@@ -96,6 +95,9 @@ public class VerticalRecyclerView extends RecyclerView {
                     allowParentTouchEvent = true;
                 }
                 getParent().requestDisallowInterceptTouchEvent(!allowParentTouchEvent);
+                break;
+            default:
+                break;
         }
         return super.dispatchTouchEvent(ev);
 

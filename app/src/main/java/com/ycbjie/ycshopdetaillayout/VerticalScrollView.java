@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayoutlib;
+package com.ycbjie.ycshopdetaillayout;
 
 import android.content.Context;
 import android.os.Build;
@@ -60,6 +60,9 @@ public class VerticalScrollView extends ScrollView {
                     allowParentTouchEvent = true;
                 }
                 getParent().requestDisallowInterceptTouchEvent(!allowParentTouchEvent);
+                break;
+            default:
+                break;
         }
         return super.dispatchTouchEvent(ev);
     }

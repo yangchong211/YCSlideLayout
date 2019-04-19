@@ -9,7 +9,7 @@ import com.ycbjie.ycshopdetaillayout.first.FirstActivity;
 import com.ycbjie.ycshopdetaillayout.four.FourActivity;
 import com.ycbjie.ycshopdetaillayout.second.SecondActivity;
 import com.ycbjie.ycshopdetaillayout.third.ThirdActivity;
-import com.ycbjie.ycshopdetaillayoutlib.LoggerUtils;
+import com.ycbjie.slide.LoggerUtils;
 
 public class MainActivity extends AppCompatActivity {
 

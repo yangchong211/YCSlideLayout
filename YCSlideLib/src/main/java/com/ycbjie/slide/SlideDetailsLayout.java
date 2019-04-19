@@ -1,15 +1,17 @@
-package com.ycbjie.ycshopdetaillayoutlib;
+package com.ycbjie.slide;
+
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -20,16 +22,30 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 
-public class SlideAnimLayout extends ViewGroup {
+public class SlideDetailsLayout extends ViewGroup {
 
+
+    private static final float DEFAULT_PERCENT = 0.2f;
+    private static final int DEFAULT_DURATION = 300;
+
+    private View mFrontView;
+    private View mBehindView;
+    private View mTarget;
+    private float mTouchSlop;
+    private float mInitMotionY;
+    private float mInitMotionX;
+    private float mSlideOffset;
+    private Status mStatus = Status.CLOSE;
+    private boolean isFirstShowBehindView = true;
+    private float mPercent = DEFAULT_PERCENT;
+    private long mDuration = DEFAULT_DURATION;
+    private int mDefaultPanel = 0;
+
+    /**
+     * 状态，使用枚举
+     */
     public enum Status {
-        /**
-         * 关闭
-         */
         CLOSE,
-        /**
-         * 打开
-         */
         OPEN;
         public static Status valueOf(int stats) {
             if (0 == stats) {
@@ -42,99 +58,46 @@ public class SlideAnimLayout extends ViewGroup {
         }
     }
 
-    private static final int DEFAULT_DURATION = 300;
-    private View mFrontView;
-    private View mAnimView;
-    private View mBehindView;
-
-    private float mTouchSlop;
-    private float mInitMotionY;
-    private float mInitMotionX;
-
-
-    private View mTarget;
-    private float mSlideOffset;
-    private Status mStatus = Status.CLOSE;
-    private boolean isFirstShowBehindView = true;
-    private long mDuration = DEFAULT_DURATION;
-    private int mDefaultPanel = 0;
-    private int animHeight;
-
-
-    public SlideAnimLayout(Context context) {
+    public SlideDetailsLayout(Context context) {
         this(context, null);
     }
 
-    public SlideAnimLayout(Context context, AttributeSet attrs) {
+    public SlideDetailsLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SlideAnimLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SlideDetailsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideDetailsLayout, defStyleAttr, 0);
-        mDuration = a.getInt(R.styleable.SlideDetailsLayout_duration, DEFAULT_DURATION);
-        mDefaultPanel = a.getInt(R.styleable.SlideDetailsLayout_default_panel, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
+        mPercent = a.getFloat(R.styleable.SlideLayout_percent, DEFAULT_PERCENT);
+        mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
+        mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
         a.recycle();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
-
-
-    /**
-     * 打开商详页
-     * @param smooth
-     */
-    public void smoothOpen(boolean smooth) {
-        if (mStatus != Status.OPEN) {
-            mStatus = Status.OPEN;
-            final float height = -getMeasuredHeight() - animHeight;
-            LoggerUtils.i("SlideLayout---smoothOpen---"+height);
-            animatorSwitch(0, height, true, smooth ? mDuration : 0);
-        }
-    }
-
-    /**
-     * 关闭商详页
-     * @param smooth
-     */
-    public void smoothClose(boolean smooth) {
-        if (mStatus != Status.CLOSE) {
-            mStatus = Status.CLOSE;
-            final float height = -getMeasuredHeight();
-            LoggerUtils.i("SlideLayout---smoothClose---"+height);
-            animatorSwitch(height, 0, true, smooth ? mDuration : 0);
-        }
-    }
-
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         final int childCount = getChildCount();
         if (1 >= childCount) {
-            throw new RuntimeException("SlideDetailsLayout only accept childs more than 1!!");
+            throw new RuntimeException("SlideDetailsLayout only accept child more than 1!!");
         }
         mFrontView = getChildAt(0);
-        mAnimView = getChildAt(1);
-        mAnimView.post(new Runnable() {
-            @Override
-            public void run() {
-                animHeight = mAnimView.getHeight();
-                LoggerUtils.i("获取控件高度"+animHeight);
-            }
-        });
-        mBehindView = getChildAt(2);
+        mBehindView = getChildAt(1);
         if(mDefaultPanel == 1){
             post(new Runnable() {
                 @Override
                 public void run() {
-                    //默认效果
                     smoothOpen(false);
                 }
             });
         }
     }
 
+    /**
+     * 测量
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int pWidth = MeasureSpec.getSize(widthMeasureSpec);
@@ -147,19 +110,22 @@ public class SlideAnimLayout extends ViewGroup {
             if (child.getVisibility() == GONE) {
                 continue;
             }
-            if(getChildAt(i) == mAnimView){
-                child.measure(0,0);
-                int measuredHeight = child.getMeasuredHeight();
-                LoggerUtils.i("onMeasure获取控件高度"+measuredHeight);
-                measureChild(child, childWidthMeasureSpec,
-                        MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY));
-            } else{
-                measureChild(child, childWidthMeasureSpec, childHeightMeasureSpec);
-            }
+            measureChild(child, childWidthMeasureSpec, childHeightMeasureSpec);
         }
         setMeasuredDimension(pWidth, pHeight);
     }
 
+    /**
+     * 绘制
+     */
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+    }
+
+    /**
+     * 布局
+     */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int top;
@@ -168,29 +134,26 @@ public class SlideAnimLayout extends ViewGroup {
         View child;
         for (int i = 0; i < getChildCount(); i++) {
             child = getChildAt(i);
+            // skip layout
             if (child.getVisibility() == GONE) {
                 continue;
             }
-            LoggerUtils.i("onLayout，offset---"+offset);
-            int measuredHeight = getChildAt(1).getMeasuredHeight();
             if (child == mBehindView) {
-                top = b + offset + measuredHeight ;
-                bottom = top + b - t + measuredHeight;
-                LoggerUtils.i("onLayout，mBehindView---"+top+"-----"+bottom);
-            }else if(child == mAnimView){
                 top = b + offset;
-                bottom = top - t + child.getMeasuredHeight();
-                LoggerUtils.i("onLayout，mAnimView---"+top+"-----"+bottom);
+                bottom = top + b - t;
             } else {
                 top = t + offset;
                 bottom = b + offset;
-                LoggerUtils.i("onLayout，other---"+top+"-----"+bottom);
             }
             child.layout(l, top, r, bottom);
         }
     }
 
-
+    /**
+     * 拦截事件
+     * @param ev                        ev
+     * @return
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         ensureTarget();
@@ -212,18 +175,19 @@ public class SlideAnimLayout extends ViewGroup {
             case MotionEvent.ACTION_MOVE: {
                 final float x = ev.getX();
                 final float y = ev.getY();
-
                 final float xDiff = x - mInitMotionX;
                 final float yDiff = y - mInitMotionY;
-
                 if (canChildScrollVertically((int) yDiff)) {
+                    Log.e("onInterceptTouchEvent","false");
                     shouldIntercept = false;
                 } else {
-                    final float xDiffers = Math.abs(xDiff);
-                    final float yDiffers = Math.abs(yDiff);
-                    if (yDiffers > mTouchSlop && yDiffers >= xDiffers
+                    //获取绝对值
+                    final float xDiffAbs = Math.abs(xDiff);
+                    final float yDiffAbs = Math.abs(yDiff);
+                    if (yDiffAbs > mTouchSlop && yDiffAbs >= xDiffAbs
                             && !(mStatus == Status.CLOSE && yDiff > 0
                             || mStatus == Status.OPEN && yDiff < 0)) {
+                        Log.e("onInterceptTouchEvent","true");
                         shouldIntercept = true;
                     }
                 }
@@ -240,6 +204,11 @@ public class SlideAnimLayout extends ViewGroup {
         return shouldIntercept;
     }
 
+    /**
+     * 触摸事件
+     * @param ev                            ev
+     * @return                              true表示自己处理，false表示自己处理不了
+     */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         ensureTarget();
@@ -252,33 +221,26 @@ public class SlideAnimLayout extends ViewGroup {
         boolean wantTouch = true;
         final int action = ev.getAction();
         switch (action) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN:
                 if (mTarget instanceof View) {
                     wantTouch = true;
                 }
                 break;
-            }
-            case MotionEvent.ACTION_MOVE: {
+            case MotionEvent.ACTION_MOVE:
                 final float y = ev.getY();
                 final float yDiff = y - mInitMotionY;
-                if (canChildScrollVertically(((int) yDiff))  ||
-                        (yDiff<=0 && Status.OPEN == mStatus) ) {
+                if (canChildScrollVertically(((int) yDiff))) {
                     wantTouch = false;
-                }else if((Status.OPEN == mStatus && yDiff>=animHeight)
-                        || (Status.CLOSE == mStatus && Math.abs(yDiff)>=animHeight )){
-                    wantTouch = true;
                 } else {
                     processTouchEvent(yDiff);
                     wantTouch = true;
                 }
                 break;
-            }
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL: {
+            case MotionEvent.ACTION_CANCEL:
                 finishTouchEvent();
                 wantTouch = false;
                 break;
-            }
             default:
                 break;
         }
@@ -286,16 +248,14 @@ public class SlideAnimLayout extends ViewGroup {
     }
 
 
-    /**
-     * 设置方法是触摸滑动的时候
-     * @param offset
-     */
     private void processTouchEvent(final float offset) {
         if (Math.abs(offset) < mTouchSlop) {
             return;
         }
         final float oldOffset = mSlideOffset;
+        // pull up to open
         if (mStatus == Status.CLOSE) {
+            // reset if pull down
             if (offset >= 0) {
                 mSlideOffset = 0;
             } else {
@@ -304,95 +264,61 @@ public class SlideAnimLayout extends ViewGroup {
             if (mSlideOffset == oldOffset) {
                 return;
             }
+            // pull down to close
         } else if (mStatus == Status.OPEN) {
             final float pHeight = -getMeasuredHeight();
+            // reset if pull up
             if (offset <= 0) {
                 mSlideOffset = pHeight;
             } else {
-                //此处导致下面的view显示不全
-                mSlideOffset = pHeight- animHeight + offset;
+                final float newOffset = pHeight + offset;
+                mSlideOffset = newOffset;
             }
             if (mSlideOffset == oldOffset) {
                 return;
             }
         }
-
-        if (Status.CLOSE == mStatus) {
-            if (offset <= -animHeight/2) {
-                 LoggerUtils.i("准备翻下页，已超过一半");
-                if(listener!=null){
-                    listener.onStatusChanged(mStatus, true);
-                }
-            } else {
-                LoggerUtils.i("准备翻下页，不超过一半");
-                if(listener!=null){
-                    listener.onStatusChanged(mStatus, false);
-                }
-            }
-        } else if (Status.OPEN == mStatus) {
-            if ((offset ) >= animHeight/2) {
-                if(listener!=null){
-                    listener.onStatusChanged(mStatus, false);
-                }
-                LoggerUtils.i("准备翻上页，已超过一半:offset:"+offset+"--->pHeight:"+"--->:"+animHeight);
-            } else {
-                if(listener!=null){
-                    listener.onStatusChanged(mStatus, true);
-                }
-                LoggerUtils.i("准备翻上页，不超过一半"+offset+"--->pHeight:"+"--->:"+animHeight);
-            }
-        }
+        // relayout
         requestLayout();
     }
 
 
-    /**
-     * 结束触摸
-     */
     private void finishTouchEvent() {
         final int pHeight = getMeasuredHeight();
-        LoggerUtils.i("finishTouchEvent------pHeight---"+pHeight);
+        final int percent = (int) (pHeight * mPercent);
         final float offset = mSlideOffset;
         boolean changed = false;
         if (Status.CLOSE == mStatus) {
-            if (offset <= -animHeight /2) {
-                mSlideOffset = -pHeight - animHeight;
+            if (offset <= -percent) {
+                mSlideOffset = -pHeight;
                 mStatus = Status.OPEN;
                 changed = true;
             } else {
                 mSlideOffset = 0;
             }
-            LoggerUtils.i("finishTouchEvent----CLOSE--mSlideOffset---"+mSlideOffset);
-            animatorSwitch(offset, mSlideOffset, changed);
         } else if (Status.OPEN == mStatus) {
-            if ((offset + pHeight) >= -animHeight/2) {
+            if ((offset + pHeight) >= percent) {
                 mSlideOffset = 0;
                 mStatus = Status.CLOSE;
                 changed = true;
             } else {
-                mSlideOffset = -pHeight - animHeight;
+                mSlideOffset = -pHeight;
             }
-            LoggerUtils.i("finishTouchEvent----OPEN-----"+mSlideOffset);
-            animatorSwitch(offset, mSlideOffset, changed);
         }
+        animatorSwitch(offset, mSlideOffset, changed);
     }
 
 
-    /**
-     * 共同调用的方法
-     */
     private void animatorSwitch(final float start, final float end, final boolean changed) {
         animatorSwitch(start, end, changed, mDuration);
     }
 
-    private void animatorSwitch(final float start, final float end, final boolean changed,
-                                final long duration) {
+    private void animatorSwitch(final float start, final float end, final boolean changed, final long duration) {
         ValueAnimator animator = ValueAnimator.ofFloat(start, end);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mSlideOffset = (float) animation.getAnimatedValue();
-                LoggerUtils.i("animatorSwitch----onAnimationUpdate-----"+mSlideOffset);
                 requestLayout();
             }
         });
@@ -400,10 +326,13 @@ public class SlideAnimLayout extends ViewGroup {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (changed && mStatus == Status.OPEN) {
-                    if (isFirstShowBehindView) {
-                        isFirstShowBehindView = false;
-                        mBehindView.setVisibility(VISIBLE);
+                if (changed) {
+                    if (mStatus == Status.OPEN) {
+                        checkAndFirstOpenPanel();
+                    }
+
+                    if (null != mOnSlideDetailsListener) {
+                        mOnSlideDetailsListener.onStatusChanged(mStatus);
                     }
                 }
             }
@@ -412,6 +341,12 @@ public class SlideAnimLayout extends ViewGroup {
         animator.start();
     }
 
+    private void checkAndFirstOpenPanel() {
+        if (isFirstShowBehindView) {
+            isFirstShowBehindView = false;
+            mBehindView.setVisibility(VISIBLE);
+        }
+    }
 
     private void ensureTarget() {
         if (mStatus == Status.CLOSE) {
@@ -422,16 +357,11 @@ public class SlideAnimLayout extends ViewGroup {
     }
 
 
-    /**
-     * 是否可以滑动
-     * @param direction
-     * @return
-     */
+
     protected boolean canChildScrollVertically(int direction) {
         if (mTarget instanceof AbsListView) {
             return canListViewScroll((AbsListView) mTarget);
-        } else if (mTarget instanceof FrameLayout ||
-                mTarget instanceof RelativeLayout ||
+        } else if (mTarget instanceof FrameLayout || mTarget instanceof RelativeLayout ||
                 mTarget instanceof LinearLayout) {
             View child;
             for (int i = 0; i < ((ViewGroup) mTarget).getChildCount(); i++) {
@@ -451,11 +381,11 @@ public class SlideAnimLayout extends ViewGroup {
                     || absListView.getChildAt(0).getTop() < absListView.getPaddingTop());
         } else {
             final int count = absListView.getChildCount();
-            return count > 0 && (absListView.getLastVisiblePosition() < count - 1
+            return count > 0
+                    && (absListView.getLastVisiblePosition() < count - 1
                     || absListView.getChildAt(count - 1).getBottom() > absListView.getMeasuredHeight());
         }
     }
-
 
     @Override
     protected Parcelable onSaveInstanceState() {
@@ -477,7 +407,7 @@ public class SlideAnimLayout extends ViewGroup {
         requestLayout();
     }
 
-    private static class SavedState extends BaseSavedState {
+    static class SavedState extends BaseSavedState {
 
         private float offset;
         private int status;
@@ -499,35 +429,50 @@ public class SlideAnimLayout extends ViewGroup {
             out.writeInt(status);
         }
 
-        public static final Creator<SavedState> CREATOR = new Creator<SlideAnimLayout.SavedState>() {
-            @Override
-            public SlideAnimLayout.SavedState createFromParcel(Parcel in) {
-                return new SlideAnimLayout.SavedState(in);
-            }
+        public static final Creator<SavedState> CREATOR =
+                new Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-            @Override
-            public SlideAnimLayout.SavedState[] newArray(int size) {
-                return new SlideAnimLayout.SavedState[size];
-            }
-        };
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 
-    public interface onScrollStatusListener{
-        /**
-         * 监听方法
-         * @param status            状态
-         * @param isHalf            是否是一半距离
-         */
-        void onStatusChanged(Status status, boolean isHalf);
+    /*------------------------------------回调接口------------------------------------------------*/
+    private OnSlideDetailsListener mOnSlideDetailsListener;
+    public interface OnSlideDetailsListener {
+        void onStatusChanged(Status status);
     }
-    private onScrollStatusListener listener;
-    public void setScrollStatusListener(onScrollStatusListener listener){
-        this.listener = listener;
+    public void setOnSlideDetailsListener(OnSlideDetailsListener listener) {
+        this.mOnSlideDetailsListener = listener;
     }
 
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+
+    /*------------------------------------相关方法------------------------------------------------*/
+    public void smoothOpen(boolean smooth) {
+        if (mStatus != Status.OPEN) {
+            mStatus = Status.OPEN;
+            final float height = -getMeasuredHeight();
+            animatorSwitch(0, height, true, smooth ? mDuration : 0);
+        }
+    }
+
+
+    public void smoothClose(boolean smooth) {
+        if (mStatus != Status.CLOSE) {
+            mStatus = Status.CLOSE;
+            final float height = -getMeasuredHeight();
+            animatorSwitch(height, 0, true, smooth ? mDuration : 0);
+        }
+    }
+
+    public void setPercent(float percent) {
+        this.mPercent = percent;
     }
 
 }

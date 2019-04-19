@@ -1,1 +1,1 @@
-include ':app', ':YCShopDetailLayoutLib'
+include ':app', ':YCSlideLib'

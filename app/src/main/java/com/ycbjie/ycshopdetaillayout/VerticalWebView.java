@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayoutlib;
+package com.ycbjie.ycshopdetaillayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -58,6 +58,9 @@ public class VerticalWebView extends WebView {
                     allowParentTouchEvent = true;
                 }
                 getParent().requestDisallowInterceptTouchEvent(!allowParentTouchEvent);
+                break;
+            default:
+                break;
         }
         return super.dispatchTouchEvent(ev);
     }

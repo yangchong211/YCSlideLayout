@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout;
+import com.ycbjie.slide.SlideAnimLayout;
 
 
 public class SecondActivity extends AppCompatActivity {

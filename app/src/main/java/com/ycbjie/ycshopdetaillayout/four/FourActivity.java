@@ -1,23 +1,31 @@
 package com.ycbjie.ycshopdetaillayout.four;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ycbjie.slide.LoggerUtils;
+import com.ycbjie.slide.SlideDetailsLayout;
 import com.ycbjie.ycshopdetaillayout.R;
 import com.ycbjie.ycshopdetaillayout.second.ShopMain1Fragment;
-import com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout;
+import com.ycbjie.slide.SlideAnimLayout;
 
 
 public class FourActivity extends AppCompatActivity {
@@ -29,8 +37,9 @@ public class FourActivity extends AppCompatActivity {
     private ImageView mIvMoreImg;
     private TextView mTvMoreText;
     private TextView tvBarGoods;
-    private TextView tvBarMaterial;
     private TextView tvBarDetail;
+    private LinearLayout root;
+    private NestedScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,7 @@ public class FourActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        root = findViewById(R.id.root);
         mSlideDetailsLayout = findViewById(R.id.slideDetailsLayout);
         ll_page_more = findViewById(R.id.ll_page_more);
         webView = findViewById(R.id.wb_view);
@@ -52,7 +62,7 @@ public class FourActivity extends AppCompatActivity {
         mTvMoreText =  findViewById(R.id.tv_more_text);
         tvBarGoods = findViewById(R.id.tv_bar_goods);
         tvBarDetail = findViewById(R.id.tv_bar_detail);
-
+        scrollView = findViewById(R.id.scrollView);
     }
 
     private void initListener() {
@@ -98,21 +108,51 @@ public class FourActivity extends AppCompatActivity {
             @Override
             public void onStatusChanged(SlideAnimLayout.Status mNowStatus, boolean isHalf) {
                 if(mNowStatus== SlideAnimLayout.Status.CLOSE){
-                    if(isHalf){//打开
+                    //打开
+                    if(isHalf){
                         mTvMoreText.setText("释放，查看图文详情");
                         mIvMoreImg.animate().rotation(0);
+                        LoggerUtils.i("onStatusChanged---CLOSE---释放"+isHalf);
                     }else{//关闭
                         mTvMoreText.setText("继续上拉，查看图文详情");
                         mIvMoreImg.animate().rotation(180);
+                        LoggerUtils.i("onStatusChanged---CLOSE---继续上拉"+isHalf);
                     }
                 }else{
-                    if(isHalf){//打开
+                    //打开
+                    if(isHalf){
                         mTvMoreText.setText("下拉回到商品详情");
                         mIvMoreImg.animate().rotation(0);
+                        LoggerUtils.i("onStatusChanged---OPEN---下拉回到商品详情"+isHalf);
                     }else{//关闭
                         mTvMoreText.setText("释放回到商品详情");
                         mIvMoreImg.animate().rotation(180);
+                        LoggerUtils.i("onStatusChanged---OPEN---释放回到商品详情"+isHalf);
                     }
+                }
+            }
+        });
+        mSlideDetailsLayout.setOnSlideStatusListener(new SlideAnimLayout.OnSlideStatusListener() {
+            @Override
+            public void onStatusChanged(SlideAnimLayout.Status status) {
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)
+                        root.getLayoutParams();
+                if (status == SlideAnimLayout.Status.OPEN) {
+                    layoutParams.topMargin = dip2px(FourActivity.this,44.0f);
+                    root.setLayoutParams(layoutParams);
+                    LoggerUtils.i("setOnSlideStatusListener---OPEN---下拉回到商品详情");
+                    //scrollView.scrollTo(0,0);
+                    scrollView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //ScrollView滑动到顶部
+                            scrollView.fullScroll(ScrollView.FOCUS_UP);
+                        }
+                    });
+                } else {
+                    layoutParams.topMargin = dip2px(FourActivity.this,0);
+                    root.setLayoutParams(layoutParams);
+                    LoggerUtils.i("setOnSlideStatusListener---CLOSE---上拉查看图文详情");
                 }
             }
         });
@@ -128,7 +168,6 @@ public class FourActivity extends AppCompatActivity {
         settings.setUseWideViewPort(true);
         settings.setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -153,5 +192,12 @@ public class FourActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
 }

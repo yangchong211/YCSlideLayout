@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayoutlib;
+package com.ycbjie.slide;
 
 import android.util.Log;
 

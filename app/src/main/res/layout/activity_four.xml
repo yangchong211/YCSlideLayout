@@ -16,7 +16,8 @@
         android:clipChildren="false"
         android:orientation="vertical">
 
-        <com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout
+
+        <com.ycbjie.slide.SlideAnimLayout
             android:id="@+id/slideDetailsLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -57,13 +58,14 @@
             <include layout="@layout/include_shop_detail"/>
 
 
-        </com.ycbjie.ycshopdetaillayoutlib.SlideAnimLayout>
+        </com.ycbjie.slide.SlideAnimLayout>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
+            android:background="@color/white"
             android:text="这个是底部布局"/>
 
     </LinearLayout>
