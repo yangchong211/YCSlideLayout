@@ -26,10 +26,13 @@
             app:duration="200"
             app:percent="0.1">
 
+            <!--商品布局-->
             <FrameLayout
                 android:id="@+id/fl_shop_main2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+            <!--上拉加载动画布局-->
             <LinearLayout
                 android:id="@+id/ll_page_more"
                 android:orientation="vertical"
@@ -54,7 +57,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-
+            <!--分页详情webView布局-->
             <include layout="@layout/include_shop_detail"/>
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SlideLayout">
+    <declare-styleable name="SlideDetailsLayout">
         <attr name="percent" format="float"/>
         <attr name="duration" format="integer"/>
         <attr name="default_panel" format="enum">

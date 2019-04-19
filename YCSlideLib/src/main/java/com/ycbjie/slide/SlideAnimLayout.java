@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 
 public class SlideAnimLayout extends ViewGroup {
 
+    private ValueAnimator animator;
+
     public enum Status {
         /**
          * 关闭
@@ -72,9 +74,9 @@ public class SlideAnimLayout extends ViewGroup {
     public SlideAnimLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
-        mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
-        mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideDetailsLayout, defStyleAttr, 0);
+        mDuration = a.getInt(R.styleable.SlideDetailsLayout_duration, DEFAULT_DURATION);
+        mDefaultPanel = a.getInt(R.styleable.SlideDetailsLayout_default_panel, 0);
         a.recycle();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
@@ -135,6 +137,17 @@ public class SlideAnimLayout extends ViewGroup {
                     smoothOpen(false);
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setScrollStatusListener(null);
+        setOnSlideStatusListener(null);
+        if (animator!=null){
+            animator.cancel();
+            animator = null;
         }
     }
 
@@ -220,12 +233,12 @@ public class SlideAnimLayout extends ViewGroup {
                 final float y = ev.getY();
                 final float xDiff = x - mInitMotionX;
                 final float yDiff = y - mInitMotionY;
+                boolean close = mStatus == Status.CLOSE && yDiff > 0;
+                boolean open = mStatus == Status.OPEN && yDiff < 0;
                 if (!canChildScrollVertically((int) yDiff)) {
                     final float xDiffers = Math.abs(xDiff);
                     final float yDiffers = Math.abs(yDiff);
-                    if (yDiffers > mTouchSlop && yDiffers >= xDiffers
-                            && !(mStatus == Status.CLOSE && yDiff > 0
-                            || mStatus == Status.OPEN && yDiff < 0)) {
+                    if (yDiffers > mTouchSlop && yDiffers >= xDiffers && !(close || open)) {
                         shouldIntercept = true;
                     }
                 }
@@ -311,7 +324,6 @@ public class SlideAnimLayout extends ViewGroup {
             if (offset <= 0) {
                 mSlideOffset = pHeight;
             } else {
-                //此处导致下面的view显示不全
                 mSlideOffset = pHeight- animHeight + offset;
             }
             if (mSlideOffset == oldOffset) {
@@ -389,7 +401,7 @@ public class SlideAnimLayout extends ViewGroup {
 
     private void animatorSwitch(final float start, final float end,
                                 final boolean changed, final long duration) {
-        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
+        animator = ValueAnimator.ofFloat(start, end);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -428,8 +440,8 @@ public class SlideAnimLayout extends ViewGroup {
 
 
     /**
-     * 是否可以滑动
-     * @param direction
+     * 是否可以滑动，direction为负数时表示向下滑动，反之表示向上滑动。
+     * @param direction                         direction
      * @return
      */
     protected boolean canChildScrollVertically(int direction) {

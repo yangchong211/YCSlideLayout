@@ -68,10 +68,10 @@ public class SlideDetailsLayout extends ViewGroup {
 
     public SlideDetailsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
-        mPercent = a.getFloat(R.styleable.SlideLayout_percent, DEFAULT_PERCENT);
-        mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
-        mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideDetailsLayout, defStyleAttr, 0);
+        mPercent = a.getFloat(R.styleable.SlideDetailsLayout_percent, DEFAULT_PERCENT);
+        mDuration = a.getInt(R.styleable.SlideDetailsLayout_duration, DEFAULT_DURATION);
+        mDefaultPanel = a.getInt(R.styleable.SlideDetailsLayout_default_panel, 0);
         a.recycle();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
@@ -86,7 +86,7 @@ public class SlideDetailsLayout extends ViewGroup {
         mFrontView = getChildAt(0);
         mBehindView = getChildAt(1);
         if(mDefaultPanel == 1){
-            post(new Runnable() {
+            this.post(new Runnable() {
                 @Override
                 public void run() {
                     smoothOpen(false);
@@ -134,7 +134,6 @@ public class SlideDetailsLayout extends ViewGroup {
         View child;
         for (int i = 0; i < getChildCount(); i++) {
             child = getChildAt(i);
-            // skip layout
             if (child.getVisibility() == GONE) {
                 continue;
             }
@@ -177,17 +176,12 @@ public class SlideDetailsLayout extends ViewGroup {
                 final float y = ev.getY();
                 final float xDiff = x - mInitMotionX;
                 final float yDiff = y - mInitMotionY;
-                if (canChildScrollVertically((int) yDiff)) {
-                    Log.e("onInterceptTouchEvent","false");
-                    shouldIntercept = false;
-                } else {
-                    //获取绝对值
-                    final float xDiffAbs = Math.abs(xDiff);
-                    final float yDiffAbs = Math.abs(yDiff);
-                    if (yDiffAbs > mTouchSlop && yDiffAbs >= xDiffAbs
-                            && !(mStatus == Status.CLOSE && yDiff > 0
-                            || mStatus == Status.OPEN && yDiff < 0)) {
-                        Log.e("onInterceptTouchEvent","true");
+                boolean close = mStatus == SlideDetailsLayout.Status.CLOSE && yDiff > 0;
+                boolean open = mStatus == SlideDetailsLayout.Status.OPEN && yDiff < 0;
+                if (!canChildScrollVertically((int) yDiff)) {
+                    final float xDiffers = Math.abs(xDiff);
+                    final float yDiffers = Math.abs(yDiff);
+                    if (yDiffers > mTouchSlop && yDiffers >= xDiffers && !(close || open)) {
                         shouldIntercept = true;
                     }
                 }

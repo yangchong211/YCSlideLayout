@@ -60,11 +60,11 @@ public class FirstActivity extends AppCompatActivity {
             public void onStatusChanged(SlideDetailsLayout.Status status) {
                 if (status == SlideDetailsLayout.Status.OPEN) {
                     //当前为图文详情页
-                    Log.e("FirstActivity","图文详情页");
+                    Log.e("FirstActivity","下拉回到商品详情");
                     shopMainFragment.changBottomView(true);
                 } else {
                     //当前为商品详情页
-                    Log.e("FirstActivity","商品详情页");
+                    Log.e("FirstActivity","继续上拉，查看图文详情");
                     shopMainFragment.changBottomView(false);
                 }
             }
