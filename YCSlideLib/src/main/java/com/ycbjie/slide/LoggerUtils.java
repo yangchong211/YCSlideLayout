@@ -2,6 +2,15 @@ package com.ycbjie.slide;
 
 import android.util.Log;
 
+/**
+ * <pre>
+ *     @author yangchong
+ *     blog  : https://github.com/yangchong211/YCShopDetailLayout
+ *     time  : 2018/6/6
+ *     desc  : 日志
+ *     revise:
+ * </pre>
+ */
 public class LoggerUtils {
 
     private static boolean isLog = false;

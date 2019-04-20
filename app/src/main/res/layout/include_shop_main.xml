@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ycbjie.ycshopdetaillayout.VerticalScrollView
+<com.ycbjie.slide.VerticalScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
@@ -265,4 +265,4 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-</com.ycbjie.ycshopdetaillayout.VerticalScrollView>
+</com.ycbjie.slide.VerticalScrollView>

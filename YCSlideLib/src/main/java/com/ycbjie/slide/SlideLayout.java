@@ -20,7 +20,15 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-
+/**
+ * <pre>
+ *     @author yangchong
+ *     blog  : https://github.com/yangchong211/YCShopDetailLayout
+ *     time  : 2018/6/6
+ *     desc  : SlideLayout
+ *     revise:
+ * </pre>
+ */
 public class SlideLayout extends ViewGroup {
 
 

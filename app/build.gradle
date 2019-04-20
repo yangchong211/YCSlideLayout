@@ -24,5 +24,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'cn.yc:YCBannerLib:1.4.0'
     implementation project(path: ':YCSlideLib')
-//    implementation 'cn.yc:YCSlideLib:1.0.4'
+//    implementation 'cn.yc:YCSlideLib:1.1.0'
 }

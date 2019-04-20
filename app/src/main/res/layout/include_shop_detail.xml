@@ -10,6 +10,13 @@
         android:id="@+id/ll_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/wb_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,14 +113,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
-
-
-
-
-        <WebView
-            android:id="@+id/wb_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

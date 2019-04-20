@@ -46,4 +46,16 @@
         android:background="@android:color/darker_gray"
         android:text="购物车商品详情页面，带有动画，待点击滑动"/>
 
+
+    <TextView
+        android:id="@+id/tv_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray"
+        android:text="scrollView滚动到顶部"/>
+
+
+
 </LinearLayout>

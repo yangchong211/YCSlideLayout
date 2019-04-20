@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayout;
+package com.ycbjie.slide;
 
 import android.content.Context;
 import android.os.Build;
@@ -10,7 +10,7 @@ import android.widget.ScrollView;
 /**
  * <pre>
  *     @author yangchong
- *     blog  :
+ *     blog  : https://github.com/yangchong211/YCShopDetailLayout
  *     time  : 2018/6/6
  *     desc  : 当ScrollView在最顶部或者最底部的时候，不消费事件
  *     revise:
@@ -68,19 +68,11 @@ public class VerticalScrollView extends ScrollView {
     }
 
     private boolean isTop() {
-        if (Build.VERSION.SDK_INT >= 15) {
-            return !canScrollVertically(-1);
-        } else {
-            return getScrollY() <= 0;
-        }
+        return !canScrollVertically(-1);
     }
 
     private boolean isBottom() {
-        if (Build.VERSION.SDK_INT >= 15) {
-            return !canScrollVertically(1);
-        } else {
-            return getScrollY() + getHeight() >= computeVerticalScrollRange();
-        }
+        return !canScrollVertically(1);
     }
 
 }
