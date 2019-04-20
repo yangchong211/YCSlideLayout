@@ -29,9 +29,6 @@
 
 
 ### 03.如何使用
-- 直接引用：implementation 'cn.yc:YCSlideLib:1.0.4'
-
-
 #### 3.1 第一种，直接上拉加载分页【SlideLayout有两个子ChildView】
 - SlideDetailsLayout有两个子ChildView：一个是商品页layout，一个是详情页layout
 - 在布局中
