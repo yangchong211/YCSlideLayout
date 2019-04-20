@@ -13,11 +13,11 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.slide.SlideDetailsLayout;
+import com.ycbjie.slide.SlideLayout;
 
 public class FirstActivity extends AppCompatActivity {
 
-    private SlideDetailsLayout mSlideDetailsLayout;
+    private SlideLayout mSlideDetailsLayout;
     private ShopMainFragment shopMainFragment;
     private WebView webView;
     private LinearLayout mLlDetail;
@@ -55,10 +55,10 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     private void initSlideDetailsLayout() {
-        mSlideDetailsLayout.setOnSlideDetailsListener(new SlideDetailsLayout.OnSlideDetailsListener() {
+        mSlideDetailsLayout.setOnSlideDetailsListener(new SlideLayout.OnSlideDetailsListener() {
             @Override
-            public void onStatusChanged(SlideDetailsLayout.Status status) {
-                if (status == SlideDetailsLayout.Status.OPEN) {
+            public void onStatusChanged(SlideLayout.Status status) {
+                if (status == SlideLayout.Status.OPEN) {
                     //当前为图文详情页
                     Log.e("FirstActivity","下拉回到商品详情");
                     shopMainFragment.changBottomView(true);

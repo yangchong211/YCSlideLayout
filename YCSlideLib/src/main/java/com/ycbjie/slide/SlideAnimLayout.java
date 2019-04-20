@@ -74,9 +74,9 @@ public class SlideAnimLayout extends ViewGroup {
     public SlideAnimLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideDetailsLayout, defStyleAttr, 0);
-        mDuration = a.getInt(R.styleable.SlideDetailsLayout_duration, DEFAULT_DURATION);
-        mDefaultPanel = a.getInt(R.styleable.SlideDetailsLayout_default_panel, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
+        mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
+        mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
         a.recycle();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
@@ -89,11 +89,13 @@ public class SlideAnimLayout extends ViewGroup {
     public void smoothOpen(boolean smooth) {
         if (mStatus != Status.OPEN) {
             mStatus = Status.OPEN;
+            //控件的高度+动画布局
             final float height = -getMeasuredHeight() - animHeight;
             LoggerUtils.i("SlideLayout---smoothOpen---"+height);
             animatorSwitch(0, height, true, smooth ? mDuration : 0);
         }
     }
+
 
     /**
      * 关闭商详页
@@ -119,6 +121,7 @@ public class SlideAnimLayout extends ViewGroup {
         if (1 >= childCount) {
             throw new RuntimeException("SlideDetailsLayout only accept childs more than 1!!");
         }
+        LoggerUtils.i("获取子节点的个数"+childCount);
         mFrontView = getChildAt(0);
         mAnimView = getChildAt(1);
         mBehindView = getChildAt(2);
@@ -459,6 +462,7 @@ public class SlideAnimLayout extends ViewGroup {
         }
         return ViewCompat.canScrollVertically(mTarget, -direction);
     }
+
 
     protected boolean canListViewScroll(AbsListView absListView) {
         if (mStatus == Status.OPEN) {

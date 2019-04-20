@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.ycbjie.ycshopdetaillayout.R;
 import com.ycbjie.ycshopdetaillayout.first.ShopMainFragment;
-import com.ycbjie.slide.SlideDetailsLayout;
+import com.ycbjie.slide.SlideLayout;
 
 /**
  * Created by yc on 2018/7/23.
@@ -22,7 +22,7 @@ import com.ycbjie.slide.SlideDetailsLayout;
 
 public class ThirdActivity extends AppCompatActivity {
 
-    private SlideDetailsLayout mSlideDetailsLayout;
+    private SlideLayout mSlideDetailsLayout;
     private ShopMainFragment shopMainFragment;
     private WebView webView;
     private LinearLayout mLlDetail;
@@ -60,10 +60,10 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
     private void initSlideDetailsLayout() {
-        mSlideDetailsLayout.setOnSlideDetailsListener(new SlideDetailsLayout.OnSlideDetailsListener() {
+        mSlideDetailsLayout.setOnSlideDetailsListener(new SlideLayout.OnSlideDetailsListener() {
             @Override
-            public void onStatusChanged(SlideDetailsLayout.Status status) {
-                if (status == SlideDetailsLayout.Status.OPEN) {
+            public void onStatusChanged(SlideLayout.Status status) {
+                if (status == SlideLayout.Status.OPEN) {
                     //当前为图文详情页
                     Log.e("FirstActivity","图文详情页");
                     shopMainFragment.changBottomView(true);

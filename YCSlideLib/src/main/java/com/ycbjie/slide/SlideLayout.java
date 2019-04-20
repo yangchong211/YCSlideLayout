@@ -11,7 +11,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -22,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 
-public class SlideDetailsLayout extends ViewGroup {
+public class SlideLayout extends ViewGroup {
 
 
     private static final float DEFAULT_PERCENT = 0.2f;
@@ -58,20 +57,20 @@ public class SlideDetailsLayout extends ViewGroup {
         }
     }
 
-    public SlideDetailsLayout(Context context) {
+    public SlideLayout(Context context) {
         this(context, null);
     }
 
-    public SlideDetailsLayout(Context context, AttributeSet attrs) {
+    public SlideLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SlideDetailsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SlideLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideDetailsLayout, defStyleAttr, 0);
-        mPercent = a.getFloat(R.styleable.SlideDetailsLayout_percent, DEFAULT_PERCENT);
-        mDuration = a.getInt(R.styleable.SlideDetailsLayout_duration, DEFAULT_DURATION);
-        mDefaultPanel = a.getInt(R.styleable.SlideDetailsLayout_default_panel, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
+        mPercent = a.getFloat(R.styleable.SlideLayout_percent, DEFAULT_PERCENT);
+        mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
+        mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
         a.recycle();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
@@ -176,8 +175,8 @@ public class SlideDetailsLayout extends ViewGroup {
                 final float y = ev.getY();
                 final float xDiff = x - mInitMotionX;
                 final float yDiff = y - mInitMotionY;
-                boolean close = mStatus == SlideDetailsLayout.Status.CLOSE && yDiff > 0;
-                boolean open = mStatus == SlideDetailsLayout.Status.OPEN && yDiff < 0;
+                boolean close = mStatus == SlideLayout.Status.CLOSE && yDiff > 0;
+                boolean open = mStatus == SlideLayout.Status.OPEN && yDiff < 0;
                 if (!canChildScrollVertically((int) yDiff)) {
                     final float xDiffers = Math.abs(xDiff);
                     final float yDiffers = Math.abs(yDiff);
@@ -247,9 +246,7 @@ public class SlideDetailsLayout extends ViewGroup {
             return;
         }
         final float oldOffset = mSlideOffset;
-        // pull up to open
         if (mStatus == Status.CLOSE) {
-            // reset if pull down
             if (offset >= 0) {
                 mSlideOffset = 0;
             } else {
@@ -258,10 +255,8 @@ public class SlideDetailsLayout extends ViewGroup {
             if (mSlideOffset == oldOffset) {
                 return;
             }
-            // pull down to close
         } else if (mStatus == Status.OPEN) {
             final float pHeight = -getMeasuredHeight();
-            // reset if pull up
             if (offset <= 0) {
                 mSlideOffset = pHeight;
             } else {
@@ -272,7 +267,6 @@ public class SlideDetailsLayout extends ViewGroup {
                 return;
             }
         }
-        // relayout
         requestLayout();
     }
 

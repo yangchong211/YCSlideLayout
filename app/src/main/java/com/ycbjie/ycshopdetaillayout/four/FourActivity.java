@@ -9,9 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,7 +20,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ycbjie.slide.LoggerUtils;
-import com.ycbjie.slide.SlideDetailsLayout;
 import com.ycbjie.ycshopdetaillayout.R;
 import com.ycbjie.ycshopdetaillayout.second.ShopMain1Fragment;
 import com.ycbjie.slide.SlideAnimLayout;

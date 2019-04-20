@@ -20,6 +20,8 @@
 #### 2.1 使用SlideLayout效果
 - ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/1.jpg)
 
+
+
 #### 2.2 使用SlideAnimLayout带有加载动画效果
 - ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/2.jpg)
 - ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/3.jpg)
@@ -27,13 +29,14 @@
 
 
 ### 03.如何使用
-- 直接引用：implementation 'cn.yc:YCShopDetailLayoutLib:1.0.3'
+- 直接引用：implementation 'cn.yc:YCSlideLib:1.0.4'
+
 
 #### 3.1 第一种，直接上拉加载分页【SlideLayout有两个子ChildView】
 - SlideDetailsLayout有两个子ChildView：一个是商品页layout，一个是详情页layout
 - 在布局中
     ```
-    <com.ycbjie.slide.SlideDetailsLayout
+    <com.ycbjie.slide.SlideLayout
         android:id="@+id/slideDetailsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,14 +53,15 @@
         <!--分页详情webView布局-->
         <include layout="@layout/include_shop_detail"/>
 
-    </com.ycbjie.slide.SlideDetailsLayout>
+
+    </com.ycbjie.slide.SlideLayout>
     ```
 - 在代码中
     ```
-    mSlideDetailsLayout.setOnSlideDetailsListener(new SlideDetailsLayout.OnSlideDetailsListener() {
+    mSlideDetailsLayout.setOnSlideDetailsListener(new SlideLayout.OnSlideDetailsListener() {
         @Override
-        public void onStatusChanged(SlideDetailsLayout.Status status) {
-            if (status == SlideDetailsLayout.Status.OPEN) {
+        public void onStatusChanged(SlideLayout.Status status) {
+            if (status == SlideLayout.Status.OPEN) {
                 //当前为图文详情页
                 Log.e("FirstActivity","下拉回到商品详情");
             } else {
@@ -248,11 +252,40 @@
 
 
 
+### 06.部分代码逻辑
+
+
+
 
 ### 07.参考案例
 - https://github.com/jeasonlzy/VerticalSlideView
 - https://github.com/hexianqiao3755/GoodsInfoPage
 
+
+
+### 08.其他更多
+#### 01.关于博客汇总链接
+- 1.[技术博客汇总](https://www.jianshu.com/p/614cb839182c)
+- 2.[开源项目汇总](https://blog.csdn.net/m0_37700275/article/details/80863574)
+- 3.[生活博客汇总](https://blog.csdn.net/m0_37700275/article/details/79832978)
+- 4.[喜马拉雅音频汇总](https://www.jianshu.com/p/f665de16d1eb)
+- 5.[其他汇总](https://www.jianshu.com/p/53017c3fc75d)
+
+
+
+#### 02.关于我的博客
+- 我的个人站点：www.yczbj.org，www.ycbjie.cn
+- github：https://github.com/yangchong211
+- 知乎：https://www.zhihu.com/people/yczbj/activities
+- 简书：http://www.jianshu.com/u/b7b2c6ed9284
+- csdn：http://my.csdn.net/m0_37700275
+- 喜马拉雅听书：http://www.ximalaya.com/zhubo/71989305/
+- 开源中国：https://my.oschina.net/zbj1618/blog
+- 泡在网上的日子：http://www.jcodecraeer.com/member/content_list.php?channelid=1
+- 邮箱：yangchong211@163.com
+- 阿里云博客：https://yq.aliyun.com/users/article?spm=5176.100- 239.headeruserinfo.3.dT4bcV
+- segmentfault头条：https://segmentfault.com/u/xiangjianyu/articles
+- 掘金：https://juejin.im/user/5939433efe88c2006afa0c6e
 
 
 
