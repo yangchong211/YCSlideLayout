@@ -6,14 +6,17 @@
 - 04.注意要点
 - 05.优化问题
 - 06.部分代码逻辑
-
+- 07.参考案例
 
 
 ### 01.该库介绍
 - 模仿淘宝、京东、考拉等商品详情页分页加载的UI效果。可以嵌套RecyclerView、WebView、ViewPager、ScrollView等等。
 
 
+
 ### 02.效果展示
+
+
 
 
 ### 03.如何使用
@@ -238,7 +241,15 @@
 
 
 
-### 06.效果展示
+
+### 07.参考案例
+- https://github.com/jeasonlzy/VerticalSlideView
+- https://github.com/hexianqiao3755/GoodsInfoPage
+
+
+
+
+
 
 
 
