@@ -249,17 +249,87 @@
     }
     ```
 - 当页面销毁的时候，移除listener监听，移除动画资源
-
+    ```
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setScrollStatusListener(null);
+        setOnSlideStatusListener(null);
+        if (animator!=null){
+            animator.cancel();
+            animator = null;
+        }
+    }
+    ```
 
 
 ### 06.部分代码逻辑
+#### 6.1 如何实现ScrollView在最顶部或者最底部的时候，不消费事件
+- 具体逻辑在dispatchTouchEvent分发事件中，当滑动到顶部或者底部的时候，则直接让父View消费事件。其他情况是自己是将事件会向上返还给View的父节点。
+    ```
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                //如果滑动到了最底部，就允许继续向上滑动加载下一页，否者不允许
+                //如果子节点不希望父进程拦截触摸事件，则为true。
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = ev.getX() - downX;
+                float dy = ev.getY() - downY;
+                boolean allowParentTouchEvent;
+                if (Math.abs(dy) > Math.abs(dx)) {
+                    if (dy > 0) {
+                        //位于顶部时下拉，让父View消费事件
+                        allowParentTouchEvent = isTop();
+                    } else {
+                        //位于底部时上拉，让父View消费事件
+                        allowParentTouchEvent = isBottom();
+                    }
+                } else {
+                    //水平方向滑动
+                    allowParentTouchEvent = true;
+                }
+                getParent().requestDisallowInterceptTouchEvent(!allowParentTouchEvent);
+                break;
+            default:
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    ```
 
+
+#### 6.2 如何实现商品页和详情页之间的滑动，如何处理上拉加载控件的动画效果
+- SlideAnimLayout有三个子ChildView：一个是商品页layout，一个是上拉加载动画layout，一个是详情页layout
+- 通过onInterceptTouchEvent进行事件拦截后，在onTouchEvent方法中对触摸信息做进一步处理可以实现竖直方向的滑动
+    - 当商品页ScrollView滑动到底部时，则直接让父View消费事件，该父View也就是SlideAnimLayout
+    - 在onInterceptTouchEvent中，当打开详情页后(也就是CLOSE状态)，向下拉动，当y轴滑动位移绝对值大于触摸移动的像素距离，并且当y轴滑动位移大于0，则拦截事件分发自己消费事件
+    - 在onInterceptTouchEvent中，当关闭详情页后(也就是OPEN状态)，向上拉动，当y轴滑动位移绝对值大于触摸移动的像素距离，并且当y轴滑动位移小于0，则拦截事件分发自己消费事件
+    - 当处在商品页时，向上拉动；或者处于详情页时，向下拉动，在拉动过程中去改变mSlideOffset值，并且调用requestLayout()方法去绘制
+    - 在屏幕区域滑动两个面板只需要改变两个面板在y轴方向的位移（有正负方向）即可。滑动的标尺是控件相对于Top的移动，且所有的位移计算都是基于该标尺。在切换面板时只需要知道对应的offset值即可……
+- 如何处理上拉加载控件的动画效果
+    - 添加一个listener监听，可以监听到状态，以及是否达到一半距离，主要是和offset比较，当到达一半距离的时候，这个时候用属性动画将箭头view旋转180度即可实现。
+    - 既然要监听滑动距离，则首先要获取该加载控件的高度animHeight，那么在哪里获取比较合适呢？可以在onFinishInflate()方法中，用post形式获取控件高度。
+- 那么如何使滑动生效，并且看上去比较连贯
+    - 自定义布局中有非常重要的两个环节onMeasure(测量)和onLayout(布局)。测量决定了View的所占的大小，布局决定了View所处的位置。实现滑动的关键思路就在这里，我们在onLayout方法中根据通过onInterceptTouchEvent、onTouchEvent得到的滑动信息进行计算而得到布局的位置信息，并把这个位置信息设置到子View上面即可实现滑动。
+- 滑动后松开手指如何实现滚动效果
+    - 也就是说，当处在商品页时，向上拉动，拉动位移大于一半时，松开手指，则直接滑动到下一页详情页页面
+    - 具体逻辑在finishTouchEvent方法中，它主要是记录offset值，以及close或open状态下视图的高度，还有是否发生切换变化
+    - 最后开启动画，在动画过程中添加动画update的监听，在该方法中去requestLayout()控件，这样就达到滚动效果了。动画滚动结束后，如果是open状态并且是第一次显示，则设置详情页控件可见。
+- 如何使滚动效果比较自然，或者如何调整滚动时长
+    - 可以自定义设置时间，直接在布局中设置……
 
 
 
 ### 07.参考案例
+- 感谢下面大佬的开源案例
 - https://github.com/jeasonlzy/VerticalSlideView
 - https://github.com/hexianqiao3755/GoodsInfoPage
+- https://github.com/cnbleu/SlideDetailsLayout
 
 
 

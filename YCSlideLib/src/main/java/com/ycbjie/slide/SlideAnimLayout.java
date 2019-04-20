@@ -86,6 +86,7 @@ public class SlideAnimLayout extends ViewGroup {
         mDuration = a.getInt(R.styleable.SlideLayout_duration, DEFAULT_DURATION);
         mDefaultPanel = a.getInt(R.styleable.SlideLayout_default_panel, 0);
         a.recycle();
+        //在我们认为用户正在滚动之前，触摸可以移动的像素距离
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
@@ -222,6 +223,13 @@ public class SlideAnimLayout extends ViewGroup {
     }
 
 
+    /**
+     * 分发事件:事件分发的对象是事件。注意，事件分发是向下传递的，也就是父到子的顺序。
+     * 根据内部拦截状态，向其child或者自己分发事件
+     *
+     * @param ev
+     * @return
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         ensureTarget();
@@ -276,9 +284,6 @@ public class SlideAnimLayout extends ViewGroup {
         final int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                if (mTarget instanceof View) {
-                    wantTouch = true;
-                }
                 break;
             case MotionEvent.ACTION_MOVE: {
                 //获取滑动点y轴的位移
@@ -397,7 +402,6 @@ public class SlideAnimLayout extends ViewGroup {
                 mSlideOffset = -pHeight - animHeight;
             }
             LoggerUtils.i("finishTouchEvent----OPEN-----"+mSlideOffset);
-
         }
         animatorSwitch(offset, mSlideOffset, changed);
     }
