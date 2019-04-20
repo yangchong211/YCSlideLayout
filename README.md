@@ -15,14 +15,21 @@
 
 
 ### 02.效果展示
+- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/slide.gif)
 
+#### 2.1 使用SlideLayout效果
+- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/1.jpg)
+
+#### 2.2 使用SlideAnimLayout带有加载动画效果
+- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/2.jpg)
+- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/3.jpg)
 
 
 
 ### 03.如何使用
-- 直接引用：implementation 'cn.yc:YCShopDetailLayoutLib:1.0.2'
+- 直接引用：implementation 'cn.yc:YCShopDetailLayoutLib:1.0.3'
 
-#### 3.1 第一种，直接上拉加载分页【SlideXxLayout有两个子ChildView】
+#### 3.1 第一种，直接上拉加载分页【SlideLayout有两个子ChildView】
 - SlideDetailsLayout有两个子ChildView：一个是商品页layout，一个是详情页layout
 - 在布局中
     ```
@@ -67,7 +74,7 @@
     ```
 
 
-#### 3.2 第一种，上拉加载有动画效果，然后展示分页【SlideXxLayout有三个子ChildView】
+#### 3.2 第一种，上拉加载有动画效果，然后展示分页【SlideAnimLayout有三个子ChildView】
 - SlideAnimLayout有三个子ChildView：一个是商品页layout，一个是上拉加载动画layout，一个是详情页layout
 - 在布局中
     ```
