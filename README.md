@@ -12,6 +12,7 @@
 ### 01.该库介绍
 - 模仿淘宝、京东、考拉等商品详情页分页加载的UI效果。可以嵌套RecyclerView、WebView、ViewPager、ScrollView等等。
 - 项目地址：https://github.com/yangchong211/YCShopDetailLayout
+- [apk下载链接](https://github.com/yangchong211/YCShopDetailLayout/tree/master/image)
 
 
 ### 02.效果展示
