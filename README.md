@@ -11,20 +11,21 @@
 
 ### 01.该库介绍
 - 模仿淘宝、京东、考拉等商品详情页分页加载的UI效果。可以嵌套RecyclerView、WebView、ViewPager、ScrollView等等。
-
+- 项目地址：https://github.com/yangchong211/YCShopDetailLayout
 
 
 ### 02.效果展示
-- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/slide.gif)
+- ![slide.gif](https://upload-images.jianshu.io/upload_images/4432347-43e7e30096b6e322.gif?imageMogr2/auto-orient/strip)
+
 
 #### 2.1 使用SlideLayout效果
-- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/1.jpg)
+- ![image](https://upload-images.jianshu.io/upload_images/4432347-cae4a780c2c0a988.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
 #### 2.2 使用SlideAnimLayout带有加载动画效果
-- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/2.jpg)
-- ![image](https://github.com/yangchong211/YCShopDetailLayout/blob/master/image/3.jpg)
+- ![image](https://upload-images.jianshu.io/upload_images/4432347-d4f966b7750d1ece.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- ![image](https://upload-images.jianshu.io/upload_images/4432347-f7a0e3647aad672e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
@@ -353,8 +354,6 @@
 - 阿里云博客：https://yq.aliyun.com/users/article?spm=5176.100- 239.headeruserinfo.3.dT4bcV
 - segmentfault头条：https://segmentfault.com/u/xiangjianyu/articles
 - 掘金：https://juejin.im/user/5939433efe88c2006afa0c6e
-
-
 
 
 
