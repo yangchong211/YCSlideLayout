@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-    android:background="@android:color/transparent">
+    android:background="@android:color/white">
 
 
     <!--下面这部分是需要渐变效果，当作一个整体-->
