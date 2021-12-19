@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 
 import androidx.core.view.ViewCompat;
 
-import com.ycbjie.slide.R;
+
 
 /**
  * <pre>
