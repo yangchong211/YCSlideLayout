@@ -22,6 +22,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation project(path: ':YCSlideLib')
-//    implementation 'cn.yc:YCSlideLib:1.1.2'
+//    implementation project(path: ':YCSlideLib')
+    implementation 'com.github.yangchong211:YCSlideLayout:1.1.3'
 }
