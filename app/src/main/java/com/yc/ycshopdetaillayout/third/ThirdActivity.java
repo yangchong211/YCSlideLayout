@@ -1,21 +1,27 @@
-package com.ycbjie.ycshopdetaillayout.first;
+package com.yc.ycshopdetaillayout.third;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.slide.SlideLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-public class FirstActivity extends AppCompatActivity {
+import com.yc.slide.SlideLayout;
+import com.ycbjie.ycshopdetaillayout.R;
+import com.yc.ycshopdetaillayout.first.ShopMainFragment;
+
+/**
+ * Created by yc on 2018/7/23.
+ */
+
+public class ThirdActivity extends AppCompatActivity {
 
     private SlideLayout mSlideDetailsLayout;
     private ShopMainFragment shopMainFragment;
@@ -26,7 +32,7 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first);
+        setContentView(R.layout.activity_third);
 
         initView();
         initShopMainFragment();
@@ -60,11 +66,11 @@ public class FirstActivity extends AppCompatActivity {
             public void onStatusChanged(SlideLayout.Status status) {
                 if (status == SlideLayout.Status.OPEN) {
                     //当前为图文详情页
-                    Log.e("FirstActivity","下拉回到商品详情");
+                    Log.e("FirstActivity","图文详情页");
                     shopMainFragment.changBottomView(true);
                 } else {
                     //当前为商品详情页
-                    Log.e("FirstActivity","继续上拉，查看图文详情");
+                    Log.e("FirstActivity","商品详情页");
                     shopMainFragment.changBottomView(false);
                 }
             }

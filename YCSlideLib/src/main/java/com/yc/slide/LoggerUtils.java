@@ -1,4 +1,4 @@
-package com.ycbjie.slide;
+package com.yc.slide;
 
 import android.util.Log;
 

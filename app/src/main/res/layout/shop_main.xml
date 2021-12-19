@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ycbjie.slide.VerticalScrollView
+    <com.yc.slide.VerticalScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollView"
@@ -19,7 +19,7 @@
             android:background="#eeeff3"
             android:orientation="vertical">
 
-            <com.yc.cn.ycbannerlib.banner.BannerView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
 
@@ -270,7 +270,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-    </com.ycbjie.slide.VerticalScrollView>
+    </com.yc.slide.VerticalScrollView>
 
     <Button
         android:id="@+id/btn"

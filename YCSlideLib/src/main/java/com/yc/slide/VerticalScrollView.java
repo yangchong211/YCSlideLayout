@@ -1,34 +1,35 @@
-package com.ycbjie.ycshopdetaillayout;
+package com.yc.slide;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.webkit.WebView;
+import android.widget.ScrollView;
 
 
 /**
  * <pre>
  *     @author yangchong
- *     blog  :
+ *     blog  : https://github.com/yangchong211/YCShopDetailLayout
  *     time  : 2018/6/6
- *     desc  : 当WebView在最顶部或者最底部的时候，不消费事件
+ *     desc  : 当ScrollView在最顶部或者最底部的时候，不消费事件
  *     revise:
  * </pre>
  */
-public class VerticalWebView extends WebView {
+public class VerticalScrollView extends ScrollView {
 
     private float downX;
     private float downY;
 
-    public VerticalWebView(Context context) {
+    public VerticalScrollView(Context context) {
         this(context, null);
     }
 
-    public VerticalWebView(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.webViewStyle);
+    public VerticalScrollView(Context context, AttributeSet attrs) {
+        this(context, attrs, android.R.attr.scrollViewStyle);
     }
 
-    public VerticalWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public VerticalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -39,6 +40,7 @@ public class VerticalWebView extends WebView {
                 downX = ev.getX();
                 downY = ev.getY();
                 //如果滑动到了最底部，就允许继续向上滑动加载下一页，否者不允许
+                //如果子节点不希望父进程拦截触摸事件，则为true。
                 getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -66,11 +68,11 @@ public class VerticalWebView extends WebView {
     }
 
     private boolean isTop() {
-        return getScrollY() <= 0;
+        return !canScrollVertically(-1);
     }
 
     private boolean isBottom() {
-        return getHeight() + getScrollY() >= getContentHeight() * getScale();
+        return !canScrollVertically(1);
     }
 
 }

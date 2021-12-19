@@ -1,11 +1,8 @@
-package com.ycbjie.ycshopdetaillayout.second;
+package com.yc.ycshopdetaillayout.second;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -14,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.yc.slide.SlideAnimLayout;
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.slide.SlideAnimLayout;
 
 
 public class SecondActivity extends AppCompatActivity {

@@ -1,35 +1,34 @@
-package com.ycbjie.slide;
+package com.yc.ycshopdetaillayout;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ScrollView;
+import android.webkit.WebView;
 
 
 /**
  * <pre>
  *     @author yangchong
- *     blog  : https://github.com/yangchong211/YCShopDetailLayout
+ *     blog  :
  *     time  : 2018/6/6
- *     desc  : 当ScrollView在最顶部或者最底部的时候，不消费事件
+ *     desc  : 当WebView在最顶部或者最底部的时候，不消费事件
  *     revise:
  * </pre>
  */
-public class VerticalScrollView extends ScrollView {
+public class VerticalWebView extends WebView {
 
     private float downX;
     private float downY;
 
-    public VerticalScrollView(Context context) {
+    public VerticalWebView(Context context) {
         this(context, null);
     }
 
-    public VerticalScrollView(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.scrollViewStyle);
+    public VerticalWebView(Context context, AttributeSet attrs) {
+        this(context, attrs, android.R.attr.webViewStyle);
     }
 
-    public VerticalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public VerticalWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -40,7 +39,6 @@ public class VerticalScrollView extends ScrollView {
                 downX = ev.getX();
                 downY = ev.getY();
                 //如果滑动到了最底部，就允许继续向上滑动加载下一页，否者不允许
-                //如果子节点不希望父进程拦截触摸事件，则为true。
                 getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -68,11 +66,11 @@ public class VerticalScrollView extends ScrollView {
     }
 
     private boolean isTop() {
-        return !canScrollVertically(-1);
+        return getScrollY() <= 0;
     }
 
     private boolean isBottom() {
-        return !canScrollVertically(1);
+        return getHeight() + getScrollY() >= getContentHeight() * getScale();
     }
 
 }

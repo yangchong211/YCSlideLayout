@@ -1,26 +1,22 @@
-package com.ycbjie.ycshopdetaillayout.third;
+package com.yc.ycshopdetaillayout.first;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.yc.slide.SlideLayout;
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.ycshopdetaillayout.first.ShopMainFragment;
-import com.ycbjie.slide.SlideLayout;
 
-/**
- * Created by yc on 2018/7/23.
- */
-
-public class ThirdActivity extends AppCompatActivity {
+public class FirstActivity extends AppCompatActivity {
 
     private SlideLayout mSlideDetailsLayout;
     private ShopMainFragment shopMainFragment;
@@ -31,7 +27,7 @@ public class ThirdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third);
+        setContentView(R.layout.activity_first);
 
         initView();
         initShopMainFragment();
@@ -65,11 +61,11 @@ public class ThirdActivity extends AppCompatActivity {
             public void onStatusChanged(SlideLayout.Status status) {
                 if (status == SlideLayout.Status.OPEN) {
                     //当前为图文详情页
-                    Log.e("FirstActivity","图文详情页");
+                    Log.e("FirstActivity","下拉回到商品详情");
                     shopMainFragment.changBottomView(true);
                 } else {
                     //当前为商品详情页
-                    Log.e("FirstActivity","商品详情页");
+                    Log.e("FirstActivity","继续上拉，查看图文详情");
                     shopMainFragment.changBottomView(false);
                 }
             }

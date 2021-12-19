@@ -1,4 +1,4 @@
-package com.ycbjie.ycshopdetaillayout.third;
+package com.yc.ycshopdetaillayout.third;
 
 import android.content.Context;
 import android.util.AttributeSet;

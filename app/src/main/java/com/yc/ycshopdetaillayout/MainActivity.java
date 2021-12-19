@@ -1,15 +1,17 @@
-package com.ycbjie.ycshopdetaillayout;
+package com.yc.ycshopdetaillayout;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ycbjie.ycshopdetaillayout.first.FirstActivity;
-import com.ycbjie.ycshopdetaillayout.four.FourActivity;
-import com.ycbjie.ycshopdetaillayout.second.SecondActivity;
-import com.ycbjie.ycshopdetaillayout.third.ThirdActivity;
-import com.ycbjie.slide.LoggerUtils;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.yc.slide.LoggerUtils;
+import com.yc.ycshopdetaillayout.first.FirstActivity;
+import com.yc.ycshopdetaillayout.second.SecondActivity;
+import com.yc.ycshopdetaillayout.third.ThirdActivity;
+import com.ycbjie.ycshopdetaillayout.R;
+import com.yc.ycshopdetaillayout.four.FourActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,19 +24,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,FirstActivity.class));
+                startActivity(new Intent(MainActivity.this, FirstActivity.class));
             }
         });
         findViewById(R.id.tv_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SecondActivity.class));
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
         findViewById(R.id.tv_3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ThirdActivity.class));
+                startActivity(new Intent(MainActivity.this, ThirdActivity.class));
             }
         });
         findViewById(R.id.tv_4).setOnClickListener(new View.OnClickListener() {

@@ -1,12 +1,14 @@
-package com.ycbjie.ycshopdetaillayout;
+package com.yc.ycshopdetaillayout;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ScrollView;
 
-import com.ycbjie.slide.VerticalScrollView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.yc.slide.VerticalScrollView;
+import com.ycbjie.ycshopdetaillayout.R;
 
 public class FiveActivity extends AppCompatActivity {
 

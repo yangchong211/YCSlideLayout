@@ -14,18 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.yc.ycshopdetaillayout.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".first.FirstActivity"/>
-        <activity android:name=".second.SecondActivity"/>
-        <activity android:name=".third.ThirdActivity"/>
-        <activity android:name=".four.FourActivity"/>
-        <activity android:name=".FiveActivity"/>
+        <activity android:name="com.yc.ycshopdetaillayout.first.FirstActivity"/>
+        <activity android:name="com.yc.ycshopdetaillayout.second.SecondActivity"/>
+        <activity android:name="com.yc.ycshopdetaillayout.third.ThirdActivity"/>
+        <activity android:name="com.yc.ycshopdetaillayout.four.FourActivity"/>
+        <activity android:name="com.yc.ycshopdetaillayout.FiveActivity"/>
     </application>
 
 </manifest>

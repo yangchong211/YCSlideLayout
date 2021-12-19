@@ -1,14 +1,10 @@
-package com.ycbjie.ycshopdetaillayout.four;
+package com.yc.ycshopdetaillayout.four;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,10 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ycbjie.slide.LoggerUtils;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.yc.slide.LoggerUtils;
+import com.yc.slide.SlideAnimLayout;
+import com.yc.ycshopdetaillayout.second.ShopMain1Fragment;
 import com.ycbjie.ycshopdetaillayout.R;
-import com.ycbjie.ycshopdetaillayout.second.ShopMain1Fragment;
-import com.ycbjie.slide.SlideAnimLayout;
 
 
 public class FourActivity extends AppCompatActivity {

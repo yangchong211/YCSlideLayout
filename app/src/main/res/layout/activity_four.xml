@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
 
-        <com.ycbjie.slide.SlideAnimLayout
+        <com.yc.slide.SlideAnimLayout
             android:id="@+id/slideDetailsLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -61,7 +61,7 @@
             <include layout="@layout/include_shop_detail"/>
 
 
-        </com.ycbjie.slide.SlideAnimLayout>
+        </com.yc.slide.SlideAnimLayout>
 
 
         <TextView

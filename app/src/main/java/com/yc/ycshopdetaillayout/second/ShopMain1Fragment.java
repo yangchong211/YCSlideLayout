@@ -1,9 +1,9 @@
-package com.ycbjie.ycshopdetaillayout.first;
+package com.yc.ycshopdetaillayout.second;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.ycbjie.ycshopdetaillayout.R;
 
 
-public class ShopMainFragment extends Fragment {
+public class ShopMain1Fragment extends Fragment {
 
     private ScrollView mScrollView;
     private TextView mTvGoodsTitle;
@@ -65,7 +65,6 @@ public class ShopMainFragment extends Fragment {
         mLlEmptyComment = view.findViewById(R.id.ll_empty_comment);
         mLlRecommend = view.findViewById(R.id.ll_recommend);
         mTvBottomView = view.findViewById(R.id.tv_bottom_view);
-
     }
 
 
